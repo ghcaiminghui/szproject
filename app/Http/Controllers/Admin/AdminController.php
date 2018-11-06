@@ -8,13 +8,13 @@ use App\Http\Controllers\Controller;
 class AdminController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 后台管理资源控制器
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        //加载后台视图
         return view('Admin.Index');
     }
 
