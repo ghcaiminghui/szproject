@@ -11,5 +11,22 @@
 |
 */
 
-//后台首页
-Route::resource('/admin','Admin\AdminController');
+//后台路由组
+Route::group([],["as"=>"admin",function(){
+
+	//主页资源控制器
+	Route::resource("/admin","Admin\AdminController");
+
+	//权限管理资源控制器
+	Route::resource("/auths","Admin\AuthsController");
+
+	//会员管理资源控制器
+	Route::resource("/members","Admin\MembersController");
+
+	//分类资源控制器
+	Route::resource("/cates","Admin\CatesController");
+
+	
+
+}]);
+
