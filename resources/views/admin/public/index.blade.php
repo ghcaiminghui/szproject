@@ -160,9 +160,7 @@
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
 @section('content')
-
 @show
-
 <div class="contextMenu" id="Huiadminmenu">
 	<ul>
 		<li id="closethis">关闭当前 </li>
