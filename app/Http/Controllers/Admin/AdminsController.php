@@ -8,13 +8,13 @@ use App\Http\Controllers\Controller;
 class AdminsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 后台首页控制器.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        //加载后台首页的模板一
         return view("admin.index.index");
     }
 
@@ -25,7 +25,7 @@ class AdminsController extends Controller
      */
     public function create()
     {
-        //
+        //加载后台首页的模板二
         return view("admin.index.welcome");
     }
 

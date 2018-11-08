@@ -14,7 +14,7 @@
 //后台路由组
 Route::group([],function(){
 
-	//主页资源控制器
+	//后台管理资源控制器
 	Route::resource("/admins","Admin\AdminsController");
 
 	//权限管理资源控制器
@@ -31,5 +31,5 @@ Route::group([],function(){
 
 });
 
-//Route::resource("/admin","Admin\AdminController");
+
 
