@@ -29,9 +29,9 @@ class CatesController extends Controller
     public function create()
     {   
         //查询分类表数据，并分配到视图
-        $cate = DB::table("cates")->get();
+        //$cate = DB::table("cates")->get();
         //加载分类添加视图
-        return view("admin.cates.add",["cate" => $cate]);
+        //return view("admin.cates.add",["cate" => $cate]);
         
     }
 
