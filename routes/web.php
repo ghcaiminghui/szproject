@@ -15,7 +15,7 @@
 Route::group([],function(){
 
 	//主页资源控制器
-	Route::resource("/admin","Admin\AdminController");
+	Route::resource("/admins","Admin\AdminsController");
 
 	//权限管理资源控制器
 	Route::resource("/auths","Admin\AuthsController");

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admins;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AdminController extends Controller
+class AdminsController extends Controller
 {
     /**
      * 后台管理资源控制器
@@ -15,7 +15,7 @@ class AdminController extends Controller
     public function index()
     {
         //加载后台视图
-        return view('admin.index');
+        //return view('admin.index');
 
     }
 
