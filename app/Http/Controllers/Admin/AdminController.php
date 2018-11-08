@@ -15,7 +15,8 @@ class AdminController extends Controller
     public function index()
     {
         //加载后台视图
-        return view('Admin.Index');
+        return view('admin.index');
+
     }
 
     /**

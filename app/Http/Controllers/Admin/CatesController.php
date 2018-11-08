@@ -32,6 +32,7 @@ class CatesController extends Controller
         $cate = DB::table("cates")->get();
         //加载分类添加视图
         return view("admin.cates.add",["cate" => $cate]);
+        
     }
 
     /**

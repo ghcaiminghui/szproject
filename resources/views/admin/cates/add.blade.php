@@ -1,6 +1,6 @@
 @extends('admin.public.index')
 
-@section('title','分类列表')
+@section('title','分类添加')
 
 @section('content')
 <article class="page-container">
