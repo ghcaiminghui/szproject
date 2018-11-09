@@ -36,4 +36,13 @@ Route::group([],function(){
 });
 
 
+//前台路由
+Route::group([],function(){
+
+	//管理前台首页的路由
+	Route::resource("/","Home\HomeController");
+
+});
+
+
 
