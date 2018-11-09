@@ -4,18 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DB;
 
-class AdminsController extends Controller
+class AdminuserController extends Controller
 {
     /**
-     * 这个控制器是显示后台首页模板的
+     * 这个控制器是后台管理员
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //加载后台首页的模板一
-        return view("admin.index.index");
+        //
+        $data = DB::table('manager')->get();
+    
+        return view("admin.adminuser.index",['data' => $data]);
     }
 
     /**
@@ -25,8 +28,8 @@ class AdminsController extends Controller
      */
     public function create()
     {
-        //加载后台首页的模板二
-        return view("admin.index.welcome");
+        //
+        return view("admin.adminuser.add");
     }
 
     /**

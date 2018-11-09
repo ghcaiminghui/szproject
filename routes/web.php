@@ -14,8 +14,11 @@
 //后台路由组
 Route::group([],function(){
 
-	//后台管理资源控制器
+	//管理后台首页的路由
 	Route::resource("/admins","Admin\AdminsController");
+
+	//后台管理员的路由
+	Route::resource("/adminuser","Admin\AdminuserController");
 
 	//权限管理资源控制器
 	Route::resource("/auths","Admin\AuthsController");
@@ -28,6 +31,7 @@ Route::group([],function(){
 
 	//无限分类资源控制器
 	Route::resource("/cates","Admin\CatesController");
+
 
 });
 
