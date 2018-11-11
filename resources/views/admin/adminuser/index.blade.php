@@ -45,7 +45,7 @@
 				<th width="150">登录名</th>
 				<th width="90">手机</th>
 				<th width="150">邮箱</th>
-				<th>角色</th>
+				<th width="150">角色</th>
 				<th width="130">加入时间</th>
 				<th width="100">是否已启用</th>
 				<th width="100">操作</th>
@@ -54,24 +54,29 @@
 		<tbody>
 			@foreach($data as $row)
 			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
+				<td><input type="checkbox" value="{{$row->id}}" name=""></td>
 				<td>{{$row->id}}</td>
 				<td>{{$row->username}}</td>
 				<td>{{$row->phone}}</td>
 				<td>{{$row->email}}</td>
-				<td>超级管理员</td>
+				<td>{{$row->role_id}}</td>
 				<td>{{$row->created_at}}</td>
 				<td class="td-status">
-						@if($row->status =='2')
-						<span class="label label-success radius">启用</span>
-						@else
-						<span class="label label-danger radius">停用</span>
-						@endif
+					@if($row->status == 1)
+					<span class="label label-success radius">已禁用</span>
+					@elseif($row->status == 2)
+					<span class="label label-danger radius">已启用</span>
+					@endif
 				</td>
 				<td class="td-manage">
+					@if($row->status == 1)
+					<a style="text-decoration:none" onClick="admin_start(this,'10001')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a>
+					@elseif($row->status == 2)
 					<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
-					 <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-					  <a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					@endif 
+					<a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
+					<a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+				</td>
 			</tr>
 			@endforeach
 		</tbody>
@@ -88,12 +93,14 @@
 <script type="text/javascript" src="/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="/admin/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
-$(function(){
-	$('table').dataTable({
-		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
-		"bStateSave": true,//状态保存	
-	});
-	
+$('.table').dataTable({
+	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+	"bStateSave": true,//状态保存
+	"pading":false,
+	"aoColumnDefs": [
+	  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+	  {"orderable":false,"aTargets":[0,8]}// 不参与排序的列
+	]
 });
 /*
 	参数解释：

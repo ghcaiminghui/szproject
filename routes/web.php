@@ -12,16 +12,19 @@
 */
 
 //后台路由组
-Route::group([],function(){
+Route::group(['middleware' => 'checkrbac'],function(){
 
 	//管理后台首页的路由
 	Route::resource("/admins","Admin\AdminsController");
 
 	//后台管理员的路由
 	Route::resource("/adminuser","Admin\AdminuserController");
-
+	
 	//权限管理资源控制器
 	Route::resource("/auths","Admin\AuthsController");
+
+	//角色的管理控制器
+	Route::resource("/roles","Admin\RoleController");
 
 	//会员管理资源控制器
 	Route::resource("/members","Admin\MembersController");

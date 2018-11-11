@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
+use App\Model\Adminuser;
 
 class AdminuserController extends Controller
 {
@@ -16,9 +16,11 @@ class AdminuserController extends Controller
     public function index()
     {
         //
-        $data = DB::table('manager')->get();
-    
-        return view("admin.adminuser.index",['data' => $data]);
+        //$data = DB::table('manager as m')->join('role as r','m.role_id','=','r.id')->select('m.*','r.*')->get();
+        $data = Adminuser::get();
+        
+        return view("admin.adminuser.index",compact('data'));
+        
     }
 
     /**
@@ -30,6 +32,7 @@ class AdminuserController extends Controller
     {
         //
         return view("admin.adminuser.add");
+        
     }
 
     /**
@@ -41,6 +44,10 @@ class AdminuserController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->except('_token','password2');
+        //var_dump($request->all());
+        //var_dump($data);
+        echo '1';
     }
 
     /**
@@ -87,4 +94,5 @@ class AdminuserController extends Controller
     {
         //
     }
+
 }
