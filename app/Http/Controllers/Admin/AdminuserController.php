@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Adminuser;
+use DB;
+use Hash;
 
 class AdminuserController extends Controller
 {
@@ -31,12 +33,14 @@ class AdminuserController extends Controller
     public function create()
     {
         //
-        return view("admin.adminuser.add");
+        $data = DB::table('role')->select('id','role_name')->get();
+       
+        return view("admin.adminuser.add",compact('data'));
         
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 执行添加操作
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -45,13 +49,19 @@ class AdminuserController extends Controller
     {
         //
         $data = $request->except('_token','password2');
-        //var_dump($request->all());
-        //var_dump($data);
-        echo '1';
-    }
+        $data['status'] = 2; //账号状态默认开启
+        $data['password'] = Hash::make($data['password']);
+        if(Adminuser::create($data)){
+
+            return response()->json(['msg'=>1]);
+        }else{
+
+            return response()->json(['msg'=>0]);
+        }
+    }   
 
     /**
-     * Display the specified resource.
+     * ajax删除
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -59,6 +69,14 @@ class AdminuserController extends Controller
     public function show($id)
     {
         //
+        if(DB::table('manager')->where('id',$id)->delete())
+        {
+            return response()->json(['msg'=>1]);
+        }else{
+
+            return response()->json(['msg'=>0]);
+        }
+
     }
 
     /**
@@ -67,9 +85,22 @@ class AdminuserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
-        //
+        //接收值
+        $msg = $request->input('msg');
+        //1==停用，2==启用 ,返回0==失败 
+        if( $msg == 1 || $msg == 2)
+        {
+            if(DB::table('manager')->where('id',$id)->update(['status' => $msg]))
+            {
+                return response()->json(['msg'=>1]);
+            }else{
+                return response()->json(['msg'=>0]);
+            }
+        }else{
+            return response()->json(['msg'=>0]);
+        }
     }
 
     /**

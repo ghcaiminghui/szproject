@@ -19,7 +19,8 @@ Route::group(['middleware' => 'checkrbac'],function(){
 
 	//后台管理员的路由
 	Route::resource("/adminuser","Admin\AdminuserController");
-	
+	//Route::resource("/adminuser/yes","Admin\AdminuserController@index1");
+
 	//权限管理资源控制器
 	Route::resource("/auths","Admin\AuthsController");
 

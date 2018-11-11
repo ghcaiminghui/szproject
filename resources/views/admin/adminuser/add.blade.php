@@ -30,7 +30,7 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
+			<input type="text" class="input-text" value="" placeholder="" id="adminName" name="username">
 		</div>
 	</div>
 	<div class="row cl">
@@ -73,11 +73,10 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3">角色：</label>
 		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="role_name" size="1">
-				<option value="0">超级管理员</option>
-				<option value="1">总编</option>
-				<option value="2">栏目主辑</option>
-				<option value="3">栏目编辑</option>
+			<select class="select" name="role_id" size="1">
+				@foreach($data as $row)
+				<option value="{{$row->id}}">{{$row->role_name}}</option>
+				@endforeach
 			</select>
 			</span> </div>
 	</div>
@@ -146,16 +145,23 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-
+			type: 'post',
 			$(form).ajaxSubmit({
 				success: function(data){
 					
-					layer.msg('添加成功!',{icon:1,time:1000},function(){
+					if(data.msg == 1){
 
-						var index = parent.layer.getFrameIndex(window.name);
-						parent.$('.btn-refresh').click();
-						parent.layer.close(index);
-					});
+						layer.msg('添加成功!',{icon:1,time:1000},function(){
+
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.$('.btn-refresh').click();
+							parent.layer.close(index);
+						});
+					}else{
+
+						layer.msg('添加失败!',{icon:2,time:2000});
+					}
+					
 				},
                 error: function(XmlHttpRequest, textStatus, errorThrown){
 					layer.msg('error!',{icon:1,time:1000});

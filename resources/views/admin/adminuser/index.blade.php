@@ -63,19 +63,19 @@
 				<td>{{$row->created_at}}</td>
 				<td class="td-status">
 					@if($row->status == 1)
-					<span class="label label-success radius">已禁用</span>
+					<span class="label label-default radius">已禁用</span>
 					@elseif($row->status == 2)
-					<span class="label label-danger radius">已启用</span>
+					<span class="label label-success radius">已启用</span>
 					@endif
 				</td>
 				<td class="td-manage">
 					@if($row->status == 1)
-					<a style="text-decoration:none" onClick="admin_start(this,'10001')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a>
+					<a style="text-decoration:none" onClick="admin_start(this,'{{$row->id}}')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a>
 					@elseif($row->status == 2)
-					<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
+					<a style="text-decoration:none" onClick="admin_stop(this,'{{$row->id}}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
 					@endif 
 					<a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> 
-					<a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					<a title="删除" href="javascript:;" onclick="admin_del(this,'{{$row->id}}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
 				</td>
 			</tr>
 			@endforeach
@@ -114,21 +114,22 @@ $('.table').dataTable({
 function admin_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
+
 /*管理员-删除*/
 function admin_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
+		
+		$.get("/adminuser/"+id,{},function(data){
+
+			if(data.msg == 1){
+
 				$(obj).parents("tr").remove();
-				layer.msg('已删除!',{icon:1,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
+ 				layer.msg('已删除!',{icon:1,time:1000});
+			}else{
+
+				layer.msg('删除失败!',{icon:1,time:1000});
+			}
+		});	
 	});
 }
 
@@ -140,11 +141,20 @@ function admin_edit(title,url,id,w,h){
 function admin_stop(obj,id){
 	layer.confirm('确认要停用吗？',function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
+		$.get("/adminuser/"+id+"/edit",{msg:1},function(data){
+			//msg==1等于成功，返回0失败
+			if(data.msg == 1){
+
+				$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,'+id+')" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
+				$(obj).remove();
+				layer.msg('已停用!',{icon: 5,time:1000});
+			}else{
+
+				layer.msg('禁用失败',{icon: 3,time:1000});
+			}
+		});
 		
-		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-		$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
-		$(obj).remove();
-		layer.msg('已停用!',{icon: 5,time:1000});
 	});
 }
 
@@ -153,11 +163,20 @@ function admin_start(obj,id){
 	layer.confirm('确认要启用吗？',function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
 		
-		
-		$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-		$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-		$(obj).remove();
-		layer.msg('已启用!', {icon: 6,time:1000});
+		$.get("/adminuser/"+id+"/edit",{msg:2},function(data){
+			//msg==1等于成功，返回0失败
+			if(data.msg == 1){
+
+				$(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,'+id+')" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+				$(obj).remove();
+				layer.msg('已启用!', {icon: 6,time:1000});
+
+			}else{
+
+				layer.msg('启用失败',{icon: 3,time:1000});
+			}
+		});
 	});
 }
 </script>
