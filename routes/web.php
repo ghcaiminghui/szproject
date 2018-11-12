@@ -11,8 +11,11 @@
 |
 */
 
+//后台登录和退出
+Route::resource("/adminlogin","Admin\AdminLoginController");
+
 //后台路由组
-Route::group(['middleware' => 'checkrbac'],function(){
+Route::group(['middleware' => ['login','checkrbac'] ],function(){
 
 	//管理后台首页的路由
 	Route::resource("/admins","Admin\AdminsController");
@@ -35,10 +38,6 @@ Route::group(['middleware' => 'checkrbac'],function(){
 
 	//无限分类资源控制器
 	Route::resource("/cates","Admin\CatesController");
-
-	//后台登录和退出
-	Route::resource("/adminlogin","Admin\AdminLoginController");
-
 
 });
 
