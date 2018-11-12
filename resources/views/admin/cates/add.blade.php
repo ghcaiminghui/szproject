@@ -1,8 +1,4 @@
-@extends('admin.public.index')
 
-@section('title','分类添加')
-
-@section('content')
 <article class="page-container">
 	<form class="form form-horizontal" id="form-admin-add" action="/cates" method="post">
 	<div class="row cl">
@@ -15,7 +11,7 @@
 		<label class="form-label col-xs-4 col-sm-3">父类：</label>
 		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select"  size="1" name="pid">
-				<option value="0">顶级分类</option>
+				<option value="0">--请选择--</option>
 				@foreach($cate as $row)
 				<option value="{{$row->id}}">{{$row->name}}</option>
 				@endforeach
@@ -31,5 +27,6 @@
 	</div>
 	</form>
 </article>
-@endsection
+
+
 
