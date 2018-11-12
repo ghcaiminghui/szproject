@@ -42,7 +42,7 @@ class AdminLoginController extends Controller
         $username=$request->input("username");
       
         $password=$request->input("password");
-        // dd ($password);
+        
         //要数据表的数据对比
         //检测用户名
        $info=DB::table("manager")->where("username",'=',$username)->first();
@@ -50,9 +50,9 @@ class AdminLoginController extends Controller
          //判断密码
         if($info){
         	//把登录的用户名存储在session里
-        	session(['username'=>$username]);
+        	session(['username'=>$username,'role_id'=>$info->role_id]);
             //检测密码
-              // echo "ok";
+            
             //哈希数据值检测
              // if(Hash::check($password,$info->password)){
               return redirect("/admins")->with('success','登录成功');
