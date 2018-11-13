@@ -20,23 +20,21 @@ class RoleController extends Controller
         $data = Role::get();
         //查询用户列表
         $adminuser = DB::table('manager')->get();
+        //查询记录数
+        $num = DB::table('role')->count();
         //加载视图
-        return view("admin.role.index",compact('data','adminuser'));
+        return view("admin.role.index",compact('data','adminuser','num'));
     }
 
     /**
-     * 分派权限
+     * 这是添加角色
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //查询顶级权限(使用交叉查询)
-        //$top = DB::table('auth')->where('pid','=','0')->get();
-        //查询一级权限
-        //$one = DB::table('auth')->where('pid','!=','0')->get();
-        
-        //return view("admin.role.add",['top'=>$top,'one'=>$one]);
+    {   
+        //加载添加页面
+        return view("admin.role.add");
     }
 
     /**
@@ -48,12 +46,16 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
-        // $data = $request->except('_token');
-        // var_dump($request->only('id'));
+        $data = $request->only('role_name');
+        
+        if(DB::table('role')->insert($data))
+        {
+            return response()->json(['msg'=>'1']);
+        }
     }
 
     /**
-     * Display the specified resource.
+     * ajax删除
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -61,6 +63,10 @@ class RoleController extends Controller
     public function show($id)
     {
         //
+        if(DB::table('role')->where('id',$id)->delete())
+        {
+            return response()->json(['msg'=>'1']);
+        }
     }
 
     /**

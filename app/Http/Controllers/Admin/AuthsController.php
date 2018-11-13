@@ -69,18 +69,27 @@ class AuthsController extends Controller
      */
     public function show($id)
     {
-        //
+        if(DB::table('auth')->where('id',$id)->delete())
+        {
+            return response()->json(['msg'=>'1']);
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 修改权限节点
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        //查询所有的顶级权限
+        $data = DB::table('auth')->where('pid','=','0')->get();
+        //$data = DB::table('auth')->where('auth.pid','=','0')->select('auth.*','a.auth_name as parentname')->leftJoin('auth as a','auth.pid','=','a.id')->get();
+        $info = DB::table('auth')->where('id',$id)->first();
+        $pid = DB::table('auth')->where('id','=',$info->pid)->first();
+
+        return view("admin.auths.edit",['data'=>$data,'info'=>$info,'pid'=>$pid]);
     }
 
     /**
@@ -93,6 +102,13 @@ class AuthsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = $request->except('_token','_method');
+
+        if(DB::table('auth')->where('id',$id)->update($data))
+        {
+            return response()->json(['msg'=>'1']);
+        }
+
     }
 
     /**

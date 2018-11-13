@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DB;
 
 class AdminsController extends Controller
 {
@@ -14,10 +15,18 @@ class AdminsController extends Controller
      */
     public function index(Request $request)
     {
+        
+        if($request->input('o') == 'gg'){
+            //清空所有session值
+            $request->session()->flush();
+
+            return redirect("/adminlogin");
+        }
+
         //加载后台首页的模板一
         $data = $request->session()->all();
-        dd($data);
-        return view("admin.index.index");
+        $info = DB::table('manager as m')->join('role as r','m.role_id','=','r.id')->where('username','=',$data['username'])->first();
+        return view("admin.index.index",['info'=>$info]);
     }
 
     /**

@@ -87,24 +87,36 @@ class AdminuserController extends Controller
      */
     public function edit(Request $request,$id)
     {
-        //接收值
-        $msg = $request->input('msg');
-        //1==停用，2==启用 ,返回0==失败 
-        if( $msg == 1 || $msg == 2)
-        {
-            if(DB::table('manager')->where('id',$id)->update(['status' => $msg]))
+        //检测是否有msg值，有代表要修改用户的状态
+        if($request->has('msg')){
+
+            //接收值
+            $msg = $request->input('msg');
+            //1==停用，2==启用 ,返回0==失败 
+            if( $msg == 1 || $msg == 2)
             {
-                return response()->json(['msg'=>1]);
+                if(DB::table('manager')->where('id',$id)->update(['status' => $msg]))
+                {
+                    return response()->json(['msg'=>1]);
+                }else{
+                    return response()->json(['msg'=>0]);
+                }
             }else{
                 return response()->json(['msg'=>0]);
             }
         }else{
-            return response()->json(['msg'=>0]);
+
+            //如果没有msg值，代表修改用户的操作
+
+            $info = DB::table('manager')->where('id','=',$id)->first();
+            $role = DB::table('role')->select('id','role_name')->get();
+
+            return view("admin.adminuser.edit",['info' => $info,'role'=>$role]);
         }
     }
 
     /**
-     * Update the specified resource in storage.
+     * 这是执行修改管理员列表的操作
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -112,7 +124,34 @@ class AdminuserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //排除不需要的值
+        $data = $request->except('_token','_method','password2');
+        
+        //表示没有修改密码
+        if($data['password'] == null )
+        {   
+            //排除密码
+            unset($data['password']);
+            //更新操作
+            if(Adminuser::where('id',$id)->update($data))
+            {
+                return response()->json(['msg'=>1]);
+            }else{
+
+                return response()->json(['msg'=>0]);
+            }
+        }else{
+            //密码加密
+            $data['password'] = Hash::make( $data['password']);
+            //更新操作
+            if(Adminuser::where('id',$id)->update($data))
+            {
+                return response()->json(['msg'=>1]);
+            }else{
+
+                return response()->json(['msg'=>0]);
+            }
+        }
     }
 
     /**

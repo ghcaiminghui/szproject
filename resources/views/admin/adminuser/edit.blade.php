@@ -6,6 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <!--[if lt IE 9]>
 <script type="text/javascript" src="/admin/lib/html5shiv.js"></script>
 <script type="text/javascript" src="/admin/lib/respond.min.js"></script>
@@ -19,54 +20,79 @@
 <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>添加权限 - 权限管理</title>
+<title>修改管理员</title>
 </head>
 <body>
 <article class="page-container">
-	<form class="form form-horizontal" id="form-admin-add" method="post" action="/auths">
+	<form class="form form-horizontal" id="form-admin-add" action="/adminuser/{{$info->id}}" method="post">
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名称：</label>
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="auth_name" name="auth_name">
+			<input type="text" class="input-text" placeholder="" id="adminName" name="username" value="{{$info->username}}">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">控制器：</label>
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="controller" name="controller">
+			<input type="password" class="input-text" autocomplete="off"  placeholder="密码" id="password" name="password">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3">方法名：</label>
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" placeholder="" name="action" id="action">
+			<input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password2">
 		</div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>父级权限：</label>
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+			<div class="radio-box">
+				<input name="sex" type="radio" id="sex-1" value="1" @if($info->sex == 1) checked @endif>
+				<label for="sex-1">男</label>
+			</div>
+			<div class="radio-box">
+				<input type="radio" id="sex-2" name="sex" value="2" @if($info->sex == 2) checked @endif >
+				<label for="sex-2">女</label>
+			</div>
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="{{$info->phone}}" placeholder="" id="phone" name="phone">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" placeholder="@" name="email" id="email" value="{{$info->email}}">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">角色：</label>
 		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="pid" size="1">
-				<option value="0">顶级权限</option>
-				@foreach($data as $row)
-				<option value="{{$row->id}}">{{$row->auth_name}}</option>
+			<select class="select" name="role_id" size="1">
+				@foreach($role as $row)
+				@if($info->role_id == $row->id)
+					<option value="{{$row->id}}" selected>{{$row->role_name}}</option>
+				@else
+					<option value="{{$row->id}}" >{{$row->role_name}}</option>
+				@endif
 				@endforeach
 			</select>
 			</span> </div>
 	</div>
 	<div class="row cl">
-		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>导航显示：</label>
-		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
-			<div class="radio-box">
-				<input name="is_nav" value="1" type="radio" id="is_nav-1" checked>
-				<label for="is_nav-1">是</label>
-			</div>
-			<div class="radio-box">
-				<input type="radio" value="2" id="is_nav-2" name="is_nav">
-				<label for="is_nav-2">不是</label>
-			</div>
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>修改密码：</label>
+		<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+			<select class="select sel"  size="1">
+				<option value="0">否</option>
+				<option value="1">是</option>
+			</select>
 		</div>
 	</div>
 	{{csrf_field()}}
+	{{ method_field('PUT') }}
 	<div class="row cl">
 		<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -86,21 +112,20 @@
 <script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
 <script type="text/javascript">
+
 $(function(){
-
-	$('#controller,#action').parents('.row').hide();
-
-	$('select').change(function(){
+	//隐藏密码域
+	$('#password,#password2').parents('.row').hide();
+	$('.sel').change(function(){
 
 		var _var = $(this).val();
-
 		if(_var > 0){
 
-			$('#controller,#action').parents('.row').show(300);
+			$('#password,#password2').parents('.row').show();
 		}else{
 
-			$('#controller,#action').val('');
-			$('#controller,#action').parents('.row').hide(300);
+			$('#password,#password2').val('');
+			$('#password,#password2').parents('.row').hide();
 		}
 	});
 
@@ -110,22 +135,32 @@ $(function(){
 		increaseArea: '20%'
 	});
 	
-	$("#form-admin-add").validate
-	({
-		rules:
-		{
-			auth_name:
-			{
+	$("#form-admin-add").validate({
+		rules:{
+			adminName:{
 				required:true,
-				minlength:2,
+				minlength:4,
 				maxlength:16
-			},	
-			is_nav:
-			{
+			},
+			password:{
 				required:true,
 			},
-			pid:
-			{
+			password2:{
+				required:true,
+				equalTo: "#password"
+			},
+			sex:{
+				required:true,
+			},
+			phone:{
+				required:true,
+				isPhone:true,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+			role_name:{
 				required:true,
 			},
 		},
@@ -133,25 +168,25 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
+			type: 'post',
 			$(form).ajaxSubmit({
-				type: 'post',
 				success: function(data){
+					
+					if(data.msg == 1){
 
-					if(data == 1){
-
-						layer.msg('添加成功!',{icon:1,time:1000},function(){
+						layer.msg('修改成功!',{icon:1,time:1000},function(){
 
 							var index = parent.layer.getFrameIndex(window.name);
 							parent.$('.btn-refresh').click();
 							parent.layer.close(index);
-						})
-					}else if(data == 2){
+						});
+					}else{
 
-						layer.msg('添加失败!',{icon:2,time:1000})
+						layer.msg('修改失败!',{icon:2,time:2000});
 					}
 					
 				},
-                error: function(XmlHttpRequest, textis_nav, errorThrown){
+                error: function(XmlHttpRequest, textStatus, errorThrown){
 					layer.msg('error!',{icon:1,time:1000});
 				}
 			});
