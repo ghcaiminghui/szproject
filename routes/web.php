@@ -43,6 +43,8 @@ Route::group(['middleware' => ['login','checkrbac'] ],function(){
 
 });
 
+//前台登录
+Route::resource("/login","Home\LoginController");
 
 //前台路由
 Route::group([],function(){
