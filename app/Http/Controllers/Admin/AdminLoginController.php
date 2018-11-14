@@ -46,29 +46,31 @@ class AdminLoginController extends Controller
         //要数据表的数据对比
         //检测用户名
        $info=DB::table("manager")->where("username",'=',$username)->first();
-       // dd($info);
+       
          //判断密码
         if($info){
-        	//把登录的用户名存储在session里
-        	session(['username'=>$username,'role_id'=>$info->role_id]);
-            //检测密码
-            
-            //哈希数据值检测
-             // if(Hash::check($password,$info->password)){
-              return redirect("/admins")->with('success','登录成功');
 
-            // }else{
-            //     return back()->with('error','登录失败');
-            //  }
+        	//检测密码
+        	if(Hash::check($password,$info->password)){
+
+	        	//把登录的用户名存储在session里
+	        	session(['username'=>$username,'role_id'=>$info->role_id]);
+
+	        	//跳转
+	        	return redirect("/admins");
+
+        	}else{
+
+        		return back();
+        	}
            
         }else{
            
            // echo "用户名错误";
-            return back()->with('error','用户名有误');
+            return back();
 
         }
-        
-
+    
     }
 
     /**

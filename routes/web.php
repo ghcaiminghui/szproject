@@ -38,6 +38,9 @@ Route::group(['middleware' => ['login','checkrbac'] ],function(){
 	//无限分类资源控制器
 	Route::resource("/cates","Admin\CatesController");
 
+	//公告资源控制器
+	Route::resource("/advert","Admin\AdvertController");
+
 });
 
 
