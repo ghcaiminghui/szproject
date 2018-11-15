@@ -14,7 +14,7 @@
 	<script src="/home/js/jquery.form.js" charset="UTF-8"></script>
 	<script src="/home/js/global.js" charset="UTF-8"></script>
 	<script src="/home/js/login.js" charset="UTF-8"></script>
-	<title>U袋网 - 登录 / 注册{{$data}}</title>
+	<title>U袋网 - 登录 / 注册</title>
 </head>
 <body>
 	<div class="public-head-layout container">
@@ -27,7 +27,7 @@
 					<h2>欢迎登录U袋网平台</h2>
 				</div>
 				<div class="tabs_container">
-					<form class="tabs_form" action="" method="post" id="login_form">
+					<form class="tabs_form"  method="post" id="login_form" action="/login/match/login">
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon">
@@ -47,19 +47,14 @@
 						</div>
 						<div class="checkbox">
 	                        <label>
-	                        	<input checked="" id="login_checkbox" type="checkbox"><i></i> 30天内免登录
+	                        	<input checked id="login_checkbox" type="checkbox"><i></i> 30天内免登录
 	                        </label>
 	                        <a href="javascript:;" class="pull-right" id="resetpwd">忘记密码？</a>
 	                    </div>
+	                    {{csrf_field()}}
 	                    <!-- 错误信息 -->
 						<div class="form-group">
 							<div class="error_msg" id="login_error">
-								<!-- 错误信息 范例html
-								<div class="alert alert-warning alert-dismissible fade in" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<strong>密码错误</strong> 请重新输入密码
-								</div>
-								 -->
 							</div>
 						</div>
 	                    <button class="btn btn-large btn-primary btn-lg btn-block submit" id="login_submit" type="button">登录</button><br>
@@ -241,9 +236,9 @@ $(document).ready(function() {
 						}
 					});
 
-					// 以下确定按钮仅供参考
+					// 注册
 					$('.submit').click(function() {
-						var form = $(this).parents('form')
+						var form = $(this).parents('form');
 						var phone = form.find('input.phone');
 						var pwd = form.find('input.password');
 						var error = form.find('.error_msg');
@@ -270,7 +265,6 @@ $(document).ready(function() {
 							case 3: error.html(msgtemp('<strong>密码过于简单</strong><br>密码需为字母、数字或特殊字符组合',  'alert-warning')); return; break;
 						}
 						//短信验证
-						//if(sms == ''){ return error.html(msgtemp('<strong>验证码不能为空</strong>','alert-warning')); }
 						$.get('/login/match/message',{message:sms},function(data){
 							
 							if(data.msg != '1'){
@@ -279,8 +273,7 @@ $(document).ready(function() {
 							}
 
 							$.post("/login/create/store",{phone:phone.val(),password:pwd.val()},function(data){
-
-								
+							
 								if(data.msg == '1'){
 										
 									form.ajaxForm(options);
@@ -292,9 +285,28 @@ $(document).ready(function() {
 							},'json');
 
 						},'json');
+					});
 
-					
-					})
+					//登录
+					$('#login_submit').click(function(){
+
+						$('#login_form').ajaxSubmit({
+
+							url:'/login/match/login',
+							type:'post',
+							dataType:'json',
+							beforeSubmit:function(){},
+							success:function(data){
+								
+								if(data.msg != '1'){
+
+									return $('#login_error').html(msgtemp('<strong>你输入的密码和账户名不匹配</strong>','alert-warning'));
+								}
+								window.location="/";
+							}
+						});
+					});
+
 				});
 
 </script>

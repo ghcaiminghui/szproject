@@ -21,13 +21,17 @@
 	<div class="tab-header">
 		<div class="inner">
 			<div class="pull-left">
-				<div class="pull-left">嗨，欢迎来到<span class="cr">U袋网</span></div>
+				<div class="pull-left">嗨，欢迎<span class="cr">U袋网</span></div>
 				<a href="agent_level.html">网店代销</a>
 				<a href="/home/temp_article/udai_article4.html">帮助中心</a>
 			</div>
 			<div class="pull-right">
-				<a href="/login"><span class="cr">登录</span></a>
-				<a href="/login">注册</a>
+				@if($username)
+				<a href="/login/logout"><span class="cr">退出</span></a>
+				@else
+				<a href="/login"><span class="cr">你好,请登录</span></a>
+				<a href="/login">免费注册</a>
+				@endif
 				<a href="udai_welcome.html">我的U袋</a>
 				<a href="udai_order.html">我的订单</a>
 				<a href="udai_integral.html">积分平台</a>

@@ -17,8 +17,10 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {  
+
         $data = $request->cookie('message');
+        
         return view("home.index.login",['data'=>$data]);
     }
 
@@ -43,6 +45,8 @@ class LoginController extends Controller
 
             return response()->json(['msg'=>'0']);
         }
+
+
     }
 
     /**
@@ -108,5 +112,47 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * 登录检查
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function matchlogin(Request $request)
+    {
 
+        $phone = $request->input('phone');
+        $password = $request->input('password');
+
+        if($info = Member::where('phone','=',$phone)->first()){
+
+            if(Hash::check($password,$info->password)){
+
+                \Cookie::queue('username',$info->phone,120);
+
+                return response()->json(['msg'=>'1']);
+            }else{
+
+                return response()->json(['msg'=>'0']);
+            }
+
+        }else{
+            //你输入的密码和账户名不匹配
+            return response()->json(['msg'=>'0']);
+        }
+    }
+
+     /**
+     * 退出登录
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout ()
+    {
+        //清除cookie
+        \Cookie::queue(\Cookie::forget('username'));
+
+        return redirect("/");
+    }
 }

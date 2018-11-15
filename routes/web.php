@@ -47,10 +47,13 @@ Route::group(['middleware' => ['login','checkrbac'] ],function(){
 Route::get("/login","Home\LoginController@index");
 
 //前台验证手机和发送短信的路由
-Route::get("/login/match/phone","Home\LoginController@matchphone");
-Route::get("/login/match/message","Home\LoginController@matchmessage");
-Route::get("/login/match/sendmessage","Home\LoginController@sendmessage");
-Route::post("/login/create/store","Home\LoginController@store");
+Route::get("/login/match/phone","Home\LoginController@matchphone");	//检测手机
+Route::get("/login/match/message","Home\LoginController@matchmessage");	//检测验证码
+Route::get("/login/match/sendmessage","Home\LoginController@sendmessage"); //发送短信
+Route::post("/login/create/store","Home\LoginController@store"); //执行添加注册
+Route::post("/login/match/login","Home\LoginController@matchlogin"); //执行登录
+Route::get("/login/logout","Home\LoginController@logout"); //退出登录
+
 //前台路由
 Route::group([],function(){
 
