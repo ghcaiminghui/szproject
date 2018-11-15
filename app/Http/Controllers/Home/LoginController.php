@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use App\Model\Member;
+use Hash;
 
 class LoginController extends Controller
 {
@@ -16,8 +18,8 @@ class LoginController extends Controller
      */
     public function index(Request $request)
     {
-        //dd($request->cookie('message'));
-        return view("home.index.login");
+        $data = $request->cookie('message');
+        return view("home.index.login",['data'=>$data]);
     }
 
     /**
@@ -66,7 +68,6 @@ class LoginController extends Controller
      */
     public function matchmessage(Request $request)
     {
-        //有信息代表是验证短息
         
         $message = $request->input('message');
 
@@ -75,17 +76,37 @@ class LoginController extends Controller
             if($request->cookie('message') == $message){
 
                 return response()->json(['msg'=>'1']);
-            }else{
-
-               return response()->json(['msg'=>'0']);
             }
         }
      
     }
 
-    public function store ()
+    /**
+     * 注册执行添加信息
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store (Request $request)
     {
 
-        echo 1;
+        $data = $request->only(['phone','password']);
+        $data['token'] = str_random(50);
+        $data['type'] = 1;
+        $data['status'] = 1;
+        $data['password'] = Hash::make($data['password']);
+        $data['username'] = $data['phone'];
+        //var_dump($data);
+        if(Member::create($data)){
+
+            session(['username'=>$data['username']]);
+
+            return response()->json(['msg'=>'1']);
+        }else{
+
+             return response()->json(['msg'=>'0']);
+        }
     }
+
+
 }

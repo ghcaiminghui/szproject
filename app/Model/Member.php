@@ -13,5 +13,5 @@ class Member extends Model
     public $timestamps = true;
 
     //可以被批量复制
-    protected $fillable = ['status'];
+    protected $fillable = ['id','username','sex','phone','email','token','type','status','password','avatar'];
 }

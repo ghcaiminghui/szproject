@@ -14,7 +14,7 @@
 	<script src="/home/js/jquery.form.js" charset="UTF-8"></script>
 	<script src="/home/js/global.js" charset="UTF-8"></script>
 	<script src="/home/js/login.js" charset="UTF-8"></script>
-	<title>U袋网 - 登录 / 注册</title>
+	<title>U袋网 - 登录 / 注册{{$data}}</title>
 </head>
 <body>
 	<div class="public-head-layout container">
@@ -223,7 +223,7 @@ $(document).ready(function() {
 							case 0:
 								phonev = phone.val();
 								$.get("/login/match/sendmessage",{phone:phonev},function(data){
-									console.log(data);
+									
 									if(data.code != '000000'){
 										
 										return error.html(msgtemp('验证码 <strong>发送失败</strong>','alert-warning'));
@@ -257,39 +257,39 @@ $(document).ready(function() {
 								console.log(data)
 							}
 						}
-						// 验证手机号参考这个
+						// 验证手机号
 						switch(phone.validatemobile()) {
-							case 1: error.html(msgtemp('<strong>手机号码为空</strong> 请输入手机号码',    'alert-warning')); return; break;
+							case 1: error.html(msgtemp('<strong>手机号码为空</strong> 请输入手机号码','alert-warning')); return; break;
 							case 2: error.html(msgtemp('<strong>手机号码错误</strong> 请输入11位数的号码','alert-warning')); return; break;
 							case 3: error.html(msgtemp('<strong>手机号码错误</strong> 请输入正确的号码',  'alert-warning')); return; break;
 						}
-						// 验证密码复杂度参考这个
+						// 验证密码复杂度
 						switch(pwd.validatepwd()) {
-							case 1: error.html(msgtemp('<strong>密码不能为空</strong> 请输入密码',    'alert-warning')); return; break;
+							case 1: error.html(msgtemp('<strong>密码不能为空</strong> 请输入密码','alert-warning')); return; break;
 							case 2: error.html(msgtemp('<strong>密码过短</strong> 请输入6位以上的密码','alert-warning')); return; break;
 							case 3: error.html(msgtemp('<strong>密码过于简单</strong><br>密码需为字母、数字或特殊字符组合',  'alert-warning')); return; break;
 						}
 						//短信验证
-						if(sms == ''){ return error.html(msgtemp('<strong>验证码不能为空</strong>',    'alert-warning')); }
+						//if(sms == ''){ return error.html(msgtemp('<strong>验证码不能为空</strong>','alert-warning')); }
 						$.get('/login/match/message',{message:sms},function(data){
-							console.log(data);
 							
 							if(data.msg != '1'){
 
 								return error.html(msgtemp('<strong>验证码不正确</strong>','alert-warning'));
 							}
 
-							$.post("/login/create/store",{msg:1},function(data){
+							$.post("/login/create/store",{phone:phone.val(),password:pwd.val()},function(data){
 
+								
 								if(data.msg == '1'){
-
+										
 									form.ajaxForm(options);
-										//请求成功执行类似这样的事件
+										//请求成功
 										form.fadeOut(150,function() {
 											success.fadeIn(150);
 										});
 								}
-							});
+							},'json');
 
 						},'json');
 
