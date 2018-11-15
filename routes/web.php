@@ -44,8 +44,13 @@ Route::group(['middleware' => ['login','checkrbac'] ],function(){
 });
 
 //前台登录
-Route::resource("/login","Home\LoginController");
+Route::get("/login","Home\LoginController@index");
 
+//前台验证手机和发送短信的路由
+Route::get("/login/match/phone","Home\LoginController@matchphone");
+Route::get("/login/match/message","Home\LoginController@matchmessage");
+Route::get("/login/match/sendmessage","Home\LoginController@sendmessage");
+Route::post("/login/create/store","Home\LoginController@store");
 //前台路由
 Route::group([],function(){
 

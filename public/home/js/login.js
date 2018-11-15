@@ -37,15 +37,15 @@ function msgtemp(msg,className) {
 		validatemobile: function (){
 			var num = $(this).val();
 			if (num.length == 0) {
-				$(this)[0].focus();
+				//$(this)[0].focus();
 				return 1;
 			} else if (num.length != 11) {
-				$(this)[0].focus();
+				//$(this)[0].focus();
 				return 2;
 			} else {
-				var reg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+				var reg = /^1(?:3\d|4[4-9]|5[0-35-9]|6[67]|7[013-8]|8\d|9\d)\d{8}$/;
 				if(!reg.test(num)) {
-					$(this)[0].focus();
+					//$(this)[0].focus();
 					return 3;
 				} else {
 					return 0;
