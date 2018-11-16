@@ -135,7 +135,7 @@
 	                    		现在您可以
 	                    	</div>
 	                    	<div class="buts-box">
-	                    		<a role="button" href="index.html" class="btn btn-block btn-lg btn-default">继续访问商城</a>
+	                    		<a role="button" href="/" class="btn btn-block btn-lg btn-default">继续访问商城</a>
 								<a role="button" href="udai_welcome.html" class="btn btn-block btn-lg btn-info">登录会员中心</a>
 	                    	</div>
 	                    </div>
@@ -309,7 +309,17 @@ $(document).ready(function() {
 
 					//重置
 					$('#resetpwd_submit').click(function(){
-
+						var form = $(this).parents('form');
+						var error = form.find('.error_msg');
+						var success = form.siblings('.tabs_div');
+						var options = {
+							beforeSubmit: function () {
+								console.log('喵喵喵')
+							},
+							success: function (data) {
+								console.log(data)
+							}
+						}
 						
 						if($('#resetpwd_sms').val() != ''){
 
@@ -321,7 +331,16 @@ $(document).ready(function() {
 								beforeSubmit:function(){},
 								success:function(data){
 
-									console.log(data);
+									if(data.msg == '1'){
+										form.ajaxForm(options);
+										//请求成功
+											form.fadeOut(150,function() {
+												success.fadeIn(150);
+											});
+									}else{
+
+										return error.html(msgtemp('<strong>验证码不正确</strong>','alert-warning'));
+									}
 								}
 							});
 							

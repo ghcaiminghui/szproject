@@ -165,8 +165,29 @@ class LoginController extends Controller
     public function update(Request $request)
     {
 
-        $data = $request->only(['phone','password','sms']);
+        $data = $request->only(['phone','password','message']);
 
-        var_dump($data);
+        if(isset($_COOKIE['message']) && !empty($data['message']))
+        {
+
+            if($request->cookie('message') == $data['message'])
+            {
+
+                $data['token'] = str_random(50);
+                $data['password'] = Hash::make($data['password']);
+                //排除更改的数组
+                unset($data['message']);
+
+                if(Member::where('phone',$data['phone'])->update(['password'=>$data['password']]))
+                {
+                    \Cookie\queue('username',$data['phone'],120);
+                    return response()->json(['msg'=>'1']);
+                }
+
+            }else{
+                //验证码不不正确
+                return response()->json(['msg'=>'0']);
+            }
+        }
     }
 }
