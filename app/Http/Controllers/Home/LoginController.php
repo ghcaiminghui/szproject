@@ -100,15 +100,15 @@ class LoginController extends Controller
         $data['status'] = 1;
         $data['password'] = Hash::make($data['password']);
         $data['username'] = $data['phone'];
-        //var_dump($data);
+        
         if(Member::create($data)){
 
-            session(['username'=>$data['username']]);
+            \Cookie::queue('username',$info->phone,120);
 
             return response()->json(['msg'=>'1']);
         }else{
 
-             return response()->json(['msg'=>'0']);
+            return response()->json(['msg'=>'0']);
         }
     }
 
@@ -142,7 +142,7 @@ class LoginController extends Controller
         }
     }
 
-     /**
+    /**
      * 退出登录
      *
      * @param  \Illuminate\Http\Request  $request
@@ -154,5 +154,19 @@ class LoginController extends Controller
         \Cookie::queue(\Cookie::forget('username'));
 
         return redirect("/");
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+
+        $data = $request->only(['phone','password','sms']);
+
+        var_dump($data);
     }
 }

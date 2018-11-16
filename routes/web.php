@@ -53,6 +53,7 @@ Route::get("/login/match/sendmessage","Home\LoginController@sendmessage"); //发
 Route::post("/login/create/store","Home\LoginController@store"); //执行添加注册
 Route::post("/login/match/login","Home\LoginController@matchlogin"); //执行登录
 Route::get("/login/logout","Home\LoginController@logout"); //退出登录
+Route::post("/login/resetpassword","Home\LoginController@update"); //重置密码
 
 //前台路由
 Route::group([],function(){

@@ -72,7 +72,7 @@
 	                    		现在您可以
 	                    	</div>
 	                    	<div class="buts-box">
-	                    		<a role="button" href="index.html" class="btn btn-block btn-lg btn-default">继续访问商城</a>
+	                    		<a role="button" href="/" class="btn btn-block btn-lg btn-default">继续访问商城</a>
 								<a role="button" href="udai_welcome.html" class="btn btn-block btn-lg btn-info">登录会员中心</a>
 	                    	</div>
 	                    </div>
@@ -147,7 +147,7 @@
   					<h2>找回密码<a href="javascript:;" class="pull-right fz16" id="pwdlogin">返回登录</a></h2>
   				</div>
   				<div class="tabs_container">
-					<form class="tabs_form" action="https://rpg.blue/member.php?mod=logging&action=login" method="post" id="resetpwd_form">
+					<form class="tabs_form" action="" method="post" id="resetpwd_form">
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon">
@@ -158,7 +158,7 @@
 						</div>
 						<div class="form-group">
 							<div class="input-group">
-								<input class="form-control" name="sms" id="resetpwd_sms" placeholder="输入验证码" type="text">
+								<input class="form-control" name="message" id="resetpwd_sms" placeholder="输入验证码" type="text">
 								<span class="input-group-btn">
 									<button class="btn btn-primary getsms" type="button">发送短信验证码</button>
 								</span>
@@ -305,6 +305,31 @@ $(document).ready(function() {
 								window.location="/";
 							}
 						});
+					});
+
+					//重置
+					$('#resetpwd_submit').click(function(){
+
+						
+						if($('#resetpwd_sms').val() != ''){
+
+							$('#resetpwd_form').ajaxSubmit({
+
+								url:'/login/resetpassword',
+								type:'post',
+								dataType:'json',
+								beforeSubmit:function(){},
+								success:function(data){
+
+									console.log(data);
+								}
+							});
+							
+						}
+
+						
+
+					
 					});
 
 				});
