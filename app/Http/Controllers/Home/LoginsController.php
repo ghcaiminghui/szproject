@@ -114,7 +114,7 @@ class LoginsController extends Controller
     				$data['username'] = $phone;
     				$data['phone'] = $phone;
     				$data['password'] = Hash::make($password);
-    				$data['status'] = 1;
+    				$data['status'] = 2;
     				$data['type'] = 1;
     				$data['token'] = str_random(50);
 
