@@ -44,16 +44,18 @@ Route::group(['middleware' => ['login','checkrbac'] ],function(){
 });
 
 //前台登录
-Route::get("/login","Home\LoginController@index");
+Route::get("/login","Home\LoginsController@index"); 
+//退出登录
+Route::get("/login/logout","Home\LoginsController@logout");
+//登录检查账号和密码
+Route::post("/login/match/login","Home\LoginsController@matchlogin"); 
+//发送短信
+Route::get("/login/match/sendmessage","Home\LoginsController@sendmessage"); 
+//注册路由负责检查手机号和验证码是否存在，最后添加信息
+Route::post("/login/match/registered","Home\LoginsController@registered");	
+//重置密码
+Route::post("/login/match/reset","Home\LoginsController@reset"); 
 
-//前台验证手机和发送短信的路由
-Route::get("/login/match/phone","Home\LoginController@matchphone");	//检测手机
-Route::get("/login/match/message","Home\LoginController@matchmessage");	//检测验证码
-Route::get("/login/match/sendmessage","Home\LoginController@sendmessage"); //发送短信
-Route::post("/login/create/store","Home\LoginController@store"); //执行添加注册
-Route::post("/login/match/login","Home\LoginController@matchlogin"); //执行登录
-Route::get("/login/logout","Home\LoginController@logout"); //退出登录
-Route::post("/login/resetpassword","Home\LoginController@update"); //重置密码
 
 //前台路由
 Route::group([],function(){

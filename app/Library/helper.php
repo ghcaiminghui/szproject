@@ -21,7 +21,7 @@ function sendphone ($phone)
 	//验证码
 	$param = substr(strval(rand(10000,19999)),1,4);
 
-	\Cookie::queue('message',$param,10);
+	\Cookie::queue('smscode',$param,10);
 
 	//手机号
 	$mobile = $phone;

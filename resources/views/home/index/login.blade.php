@@ -27,7 +27,7 @@
 					<h2>欢迎登录U袋网平台</h2>
 				</div>
 				<div class="tabs_container">
-					<form class="tabs_form"  method="post" id="login_form" action="/login/match/login">
+					<form class="tabs_form"  method="post" id="login_form" >
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon">
@@ -84,7 +84,7 @@
   					<h2>欢迎注册<a href="javascript:;" class="pull-right fz16" id="reglogin">返回登录</a></h2>
   				</div>
   				<div class="tabs_container">
-					<form class="tabs_form" action="/login/create/store" method="post" id="register_form">
+					<form class="tabs_form"  method="post" id="register_form">
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon">
@@ -147,7 +147,7 @@
   					<h2>找回密码<a href="javascript:;" class="pull-right fz16" id="pwdlogin">返回登录</a></h2>
   				</div>
   				<div class="tabs_container">
-					<form class="tabs_form" action="" method="post" id="resetpwd_form">
+					<form class="tabs_form"  method="post" id="resetpwd_form">
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon">
@@ -158,7 +158,7 @@
 						</div>
 						<div class="form-group">
 							<div class="input-group">
-								<input class="form-control" name="message" id="resetpwd_sms" placeholder="输入验证码" type="text">
+								<input class="form-control" name="smscode" id="resetpwd_sms" placeholder="输入验证码" type="text">
 								<span class="input-group-btn">
 									<button class="btn btn-primary getsms" type="button">发送短信验证码</button>
 								</span>
@@ -177,7 +177,7 @@
 						<div class="form-group">
 							<div class="error_msg" id="resetpwd_error"></div>
 						</div>
-	                    <button class="btn btn-large btn-primary btn-lg btn-block submit" id="resetpwd_submit" type="button">重置密码</button>
+	                    <button class="btn btn-large btn-primary btn-lg btn-block" id="resetpwd_submit" type="button">重置密码</button>
                     </form>
                     <div class="tabs_div">
 	                    <div class="success-box">
@@ -228,16 +228,16 @@ $(document).ready(function() {
 										error.html(msgtemp('验证码 <strong>已发送</strong>','alert-success'));
 										getsms.rewire(60);
 									}
-								});
+								},'json');
 							break;
-							case 1: error.html(msgtemp('<strong>手机号码为空</strong> 请输入手机号码',    'alert-warning')); break;
+							case 1: error.html(msgtemp('<strong>手机号码为空</strong> 请输入手机号码','alert-warning')); break;
 							case 2: error.html(msgtemp('<strong>手机号码错误</strong> 请输入11位数的号码','alert-warning')); break;
-							case 3: error.html(msgtemp('<strong>手机号码错误</strong> 请输入正确的号码',  'alert-warning')); break;
+							case 3: error.html(msgtemp('<strong>手机号码错误</strong> 请输入正确的号码', 'alert-warning')); break;
 						}
 					});
 
 					// 注册
-					$('.submit').click(function() {
+					$('#register_submit').click(function() {
 						var form = $(this).parents('form');
 						var phone = form.find('input.phone');
 						var pwd = form.find('input.password');
@@ -254,37 +254,46 @@ $(document).ready(function() {
 						}
 						// 验证手机号
 						switch(phone.validatemobile()) {
-							case 1: error.html(msgtemp('<strong>手机号码为空</strong> 请输入手机号码','alert-warning')); return; break;
-							case 2: error.html(msgtemp('<strong>手机号码错误</strong> 请输入11位数的号码','alert-warning')); return; break;
-							case 3: error.html(msgtemp('<strong>手机号码错误</strong> 请输入正确的号码',  'alert-warning')); return; break;
+							case 1: error.html(msgtemp('<strong>手机号码为空</strong> 请输入手机号码','alert-warning')); break;
+							case 2: error.html(msgtemp('<strong>手机号码错误</strong> 请输入11位数的号码','alert-warning'));  break;
+							case 3: error.html(msgtemp('<strong>手机号码错误</strong> 请输入正确的号码',  'alert-warning')); break;
 						}
 						// 验证密码复杂度
 						switch(pwd.validatepwd()) {
-							case 1: error.html(msgtemp('<strong>密码不能为空</strong> 请输入密码','alert-warning')); return; break;
-							case 2: error.html(msgtemp('<strong>密码过短</strong> 请输入6位以上的密码','alert-warning')); return; break;
-							case 3: error.html(msgtemp('<strong>密码过于简单</strong><br>密码需为字母、数字或特殊字符组合',  'alert-warning')); return; break;
+							case 1: error.html(msgtemp('<strong>密码不能为空</strong> 请输入密码','alert-warning')); break;
+							case 2: error.html(msgtemp('<strong>密码过短</strong> 请输入6位以上的密码','alert-warning'));break;
+							case 3: error.html(msgtemp('<strong>密码过于简单</strong><br>密码需为字母、数字或特殊字符组合',  'alert-warning'));  break;
 						}
-						//短信验证
-						$.get('/login/match/message',{message:sms},function(data){
-							
-							if(data.msg != '1'){
+						//提交表单，后台验证
+						$('#register_form').ajaxSubmit({
 
-								return error.html(msgtemp('<strong>验证码不正确</strong>','alert-warning'));
-							}
+							url:'/login/match/registered',
+							type:'post',
+							dataType:'json',
+							beforeSubmit:function(){},
+							success:function(data){
 
-							$.post("/login/create/store",{phone:phone.val(),password:pwd.val()},function(data){
-							
-								if(data.msg == '1'){
-										
+								console.log(data);
+								if(data.msg == '0'){
+
+									return error.html(msgtemp('<strong>验证码不正确</strong>',  'alert-warning'));
+								}else if (data.msg == '2'){
+
+									return error.html(msgtemp('<strong>手机号已存在</strong>','alert-warning'));
+								}else if (data.msg == '1'){
+
 									form.ajaxForm(options);
 										//请求成功
 										form.fadeOut(150,function() {
 											success.fadeIn(150);
 										});
-								}
-							},'json');
+								}else if(data.msg == '3'){
 
-						},'json');
+									return error.html(msgtemp('<strong>请输入验证码</strong>','alert-warning'));
+								}
+							}
+						});
+						
 					});
 
 					//登录
@@ -297,7 +306,7 @@ $(document).ready(function() {
 							dataType:'json',
 							beforeSubmit:function(){},
 							success:function(data){
-								
+								console.log(data);
 								if(data.msg != '1'){
 
 									return $('#login_error').html(msgtemp('<strong>你输入的密码和账户名不匹配</strong>','alert-warning'));
@@ -305,9 +314,10 @@ $(document).ready(function() {
 								window.location="/";
 							}
 						});
+
 					});
 
-					//重置
+					//重置密码
 					$('#resetpwd_submit').click(function(){
 						var form = $(this).parents('form');
 						var error = form.find('.error_msg');
@@ -320,35 +330,34 @@ $(document).ready(function() {
 								console.log(data)
 							}
 						}
-						
-						if($('#resetpwd_sms').val() != ''){
+	
+						$('#resetpwd_form').ajaxSubmit({
 
-							$('#resetpwd_form').ajaxSubmit({
+							url:'/login/match/reset',
+							type:'post',
+							dataType:'json',
+							beforeSubmit:function(){},
+							success:function(data){
 
-								url:'/login/resetpassword',
-								type:'post',
-								dataType:'json',
-								beforeSubmit:function(){},
-								success:function(data){
+								if(data.msg == '1'){
+									form.ajaxForm(options);
+									//请求成功
+									form.fadeOut(150,function() {
+										success.fadeIn(150);
+									});
+								}else if (data.msg == '0'){
 
-									if(data.msg == '1'){
-										form.ajaxForm(options);
-										//请求成功
-											form.fadeOut(150,function() {
-												success.fadeIn(150);
-											});
-									}else{
+									return error.html(msgtemp('<strong>验证码不正确</strong>','alert-warning'));
+								}else if (data.msg == '3'){
 
-										return error.html(msgtemp('<strong>验证码不正确</strong>','alert-warning'));
-									}
+									return error.html(msgtemp('<strong>请输入验证码</strong>','alert-warning'));
+								}else if (data.msg == '2'){
+
+									return error.html(msgtemp('<strong>用户名不存在请注册</strong>','alert-warning'));
 								}
-							});
-							
-						}
-
+							}
+						});
 						
-
-					
 					});
 
 				});
