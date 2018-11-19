@@ -41,7 +41,7 @@ Route::group(['middleware' => ['login','checkrbac'] ],function(){
 	//公告资源控制器
 	Route::resource("/advert","Admin\AdvertController");
 
-		//商品资源控制器
+	//商品资源控制器
 	Route::post("/goods/create","Admin\GoodsController@create");
 	Route::resource("/goods","Admin\GoodsController");
 
@@ -88,7 +88,12 @@ Route::group(['middleware'=>'homelogin'],function(){
 	Route::post("/personal/infoupdate","Home\PersonalsController@infoupdate");
 	//个人中心(头像上传)
 	Route::post("/personal/picload","Home\PersonalsController@picload");
-	
+	//个人中心(加载修改密码页面)
+	Route::get("/personal/repwd","Home\PersonalsController@repwd");
+	//个人中心(检测原密码)
+	Route::post("/personal/matchpwd","Home\PersonalsController@matchpwd");
+	//个人中心（重设密码）
+	Route::post("/personal/resetpwd","Home\PersonalsController@resetpwd");
 
 });
 

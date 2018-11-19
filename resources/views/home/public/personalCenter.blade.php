@@ -62,7 +62,7 @@
 					<a href="udai_address.html"><dd>收货地址</dd></a>
 					<a href="udai_coupon.html"><dd>我的优惠券</dd></a>
 					<a href="udai_paypwd_modify.html"><dd>修改支付密码</dd></a>
-					<a href="udai_pwd_modify.html"><dd>修改登录密码</dd></a>
+					<a href="/personal/repwd"><dd>修改登录密码</dd></a>
 				</dl>
 				<dl class="user-center__nav">
 					<dt>订单中心</dt>

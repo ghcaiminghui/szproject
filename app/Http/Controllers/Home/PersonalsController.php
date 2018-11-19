@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Member;
+use Hash;
 
 class PersonalsController extends Controller
 {
@@ -48,7 +49,7 @@ class PersonalsController extends Controller
     //头像上传
     public function picload(Request $request)
     {
-    	var_dump($request->all());
+    	//var_dump($request->all());
     	//判断是否有文件上传
     	if($request->hasFile('avatar_file') && $request->input('phone'))
     	{
@@ -63,6 +64,50 @@ class PersonalsController extends Controller
 
     		return response()->json(['msg'=>'1']);
     	}
+
+    }
+
+    //个人中心修改密码()
+    public function repwd()
+    {
+        //必须加载，获取客户cookie信息
+        $username = \Cookie::get('username');
+        //加载视图
+        return view("home.personalCenter.repwd",compact('username'));
+    }
+
+    //检测原密码
+    public function matchpwd(Request $request)
+    {   
+        //获取用户信息
+        $username = \Cookie::get('username');
+        $password = $request->input('password');
+
+        $info = Member::where('phone','=',$username)->first();
+
+        if(Hash::check($password,$info->password)){
+
+            //成功加载下一步视图
+            return view('home.personalCenter.resetpwd',compact('username'));
+        }else{
+
+            return redirect("/personal/repwd")->with('error','密码不正确');
+        } 
+    }
+
+    //执行修改密码
+    public function resetpwd(Request $request)
+    {
+        $username = \Cookie::get('username');
+        $password = Hash::make($request->input('password'));
+
+        if(Member::where('phone','=',$username)->update(['password'=>$password])){
+
+            return view("home.personalCenter.relogin",compact('username'));
+        }else{
+
+            return redirect("/personal/resetpwd");
+        }
 
     }
 
