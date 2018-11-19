@@ -32,7 +32,7 @@
 				<a href="/login"><span class="cr">你好,请登录</span></a>
 				<a href="/login">免费注册</a>
 				@endif
-				<a href="udai_welcome.html">我的U袋</a>
+				<a href="/personal">我的U袋</a>
 				<a href="udai_order.html">我的订单</a>
 				<a href="udai_integral.html">积分平台</a>
 			</div>
@@ -41,7 +41,7 @@
 	<!-- 搜索栏 -->
 	<div class="top-search">
 		<div class="inner">
-			<a class="logo" href="index.html"><img src="/home/images/icons/logo.jpg" alt="U袋网" class="cover"></a>
+			<a class="logo" href="/"><img src="/home/images/icons/logo.jpg" alt="U袋网" class="cover"></a>
 			<div class="search-box">
 				<form class="input-group">
 					<input placeholder="Ta们都在搜U袋网" type="text">

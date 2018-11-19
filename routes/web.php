@@ -73,13 +73,23 @@ Route::post("/login/match/registered","Home\LoginsController@registered");
 Route::post("/login/match/reset","Home\LoginsController@reset"); 
 
 
-//前台路由
-Route::group([],function(){
+//管理前台首页的路由
+Route::resource("/","Home\HomeController");
 
-	//管理前台首页的路由
-	Route::resource("/","Home\HomeController");
+
+//前台路由
+Route::group(['middleware'=>'homelogin'],function(){
+
+	//个人中心欢迎页路由
+	Route::get("/personal","Home\PersonalsController@index");
+	//个人中心(个人详情)
+	Route::get("/personal/info","Home\PersonalsController@info");
+	//个人详情执行修改
+	Route::post("/personal/infoupdate","Home\PersonalsController@infoupdate");
+	//个人中心(头像上传)
+	Route::post("/personal/picload","Home\PersonalsController@picload");
+	
 
 });
-
 
 
