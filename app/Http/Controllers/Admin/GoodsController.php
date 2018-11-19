@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Admin\Goods;
+use App\Admin\Cates;
+use DB;
+use Input;
 class GoodsController extends Controller
 {
     /**
@@ -14,7 +17,9 @@ class GoodsController extends Controller
      */
     public function index()
     {
-        //
+        //查询数据
+        $data=Goods::get();
+        return view('admin.goods.index',compact('data'));
     }
 
     /**
@@ -24,7 +29,33 @@ class GoodsController extends Controller
      */
     public function create()
     {
-        //
+       //判断提交请求
+        if (Input::method()=='POST') 
+        {
+            //实现数据的保存
+            //自动验证
+           /* $result=Goods::insert
+            ([
+                'name'          =>  Input::get('name'),
+                'typeid'        =>  Input::get('typeid'),
+                'sales'         =>  Input::get('sales'),
+                'store'         =>  Input::get('store'),
+                'price'         =>  Input::get('price'),              
+                'status'        =>  Input::get('status'),
+                'avatar'        =>  Input::get('avatar'),
+            ]);*/
+            $data=Input::except('_token','file');
+            $result=Goods::insert($data);
+            //dd($result);
+            //返回输出
+             return $result ? '1' :'0';
+        }
+        else
+        {    
+            //查询父级分类
+            $parents=Cates::where('pid','!=','0')->get();
+            return view('admin.goods.add',compact('parents'));
+        }
     }
 
     /**
@@ -57,7 +88,10 @@ class GoodsController extends Controller
      */
     public function edit($id)
     {
-        //
+        //查询父级分类
+        $parents=DB::table('cates')->where('pid','!=','0')->get();
+        $data=Goods::where('id',$id)->get();
+       return view('admin.goods.edit',compact('data','parents'));
     }
 
     /**
@@ -67,9 +101,14 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        //
+        $id = $request->input('id','');
+    
+        $result=$request->except('_token','file');
+        $data=DB::table("goods")->where("id","=",$id)->update($result);
+        //返回输出数据
+        return $data ? '1' :'0';   
     }
 
     /**
@@ -78,8 +117,12 @@ class GoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+       
+
+        $data=DB::table("goods")->where("id","=",$id)->delete();
+         //返回输出数据
+        return $data ? '1' :'0';   
     }
 }

@@ -41,6 +41,22 @@ Route::group(['middleware' => ['login','checkrbac'] ],function(){
 	//公告资源控制器
 	Route::resource("/advert","Admin\AdvertController");
 
+		//商品资源控制器
+	Route::post("/goods/create","Admin\GoodsController@create");
+	Route::resource("/goods","Admin\GoodsController");
+
+	
+	//图片上传到七牛服务器
+    Route::post('/uploader/qiniu','Admin\UploaderController@qiniu');
+	//异步头像上传地址
+    Route::post('/uploader/webuploader','Admin\UploaderController@webuploader');
+    
+
+	//订单资源控制器
+	Route::post('/order/create',"Admin\OrderController@create");
+	Route::get("/order/getareabyid","Admin\OrderController@getAreaById");
+	Route::resource("/order","Admin\OrderController");
+
 });
 
 //前台登录
