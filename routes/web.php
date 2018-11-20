@@ -94,6 +94,9 @@ Route::group(['middleware'=>'homelogin'],function(){
 	Route::post("/personal/matchpwd","Home\PersonalsController@matchpwd");
 	//个人中心（重设密码）
 	Route::post("/personal/resetpwd","Home\PersonalsController@resetpwd");
+	//个人中心(个人的收获地址)
+	Route::resource("/personal/address","Home\AddressController");
+
 
 });
 

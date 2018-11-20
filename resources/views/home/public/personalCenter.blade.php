@@ -59,7 +59,7 @@
 					<a href="/personal/info"><dd>个人资料</dd></a>
 					<a href="udai_treasurer.html"><dd>资金管理</dd></a>
 					<a href="udai_integral.html"><dd>积分平台</dd></a>
-					<a href="udai_address.html"><dd>收货地址</dd></a>
+					<a href="/personal/address"><dd>收货地址</dd></a>
 					<a href="udai_coupon.html"><dd>我的优惠券</dd></a>
 					<a href="udai_paypwd_modify.html"><dd>修改支付密码</dd></a>
 					<a href="/personal/repwd"><dd>修改登录密码</dd></a>
