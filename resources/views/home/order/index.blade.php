@@ -52,14 +52,14 @@
 			<div class="user-content__box clearfix bgf">
 				<div class="title">购物车-确认支付 </div>
 				<div class="shop-title">收货地址</div>
-				<form action="" class="shopcart-form__box">
+				<form action="/homeorder/pay" class="shopcart-form__box" method="post">
 					<div class="addr-radio">
 						<!-- 遍历购物车 -->
 						@foreach($address as $row)
 						@if($row->status == '1')
 						<div class="radio-line radio-box active">
 							<label class="radio-label ep" >
-								<input name="addr" checked="" value="0" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
+								<input name="address_id" checked="" value="{{$row->id}}" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
 								{{$row->province}} {{$row->city}} {{$row->area}} {{$row->town}}
 								{{$row->address}}
 								（{{$row->username}} 收） {{$row->phone}}
@@ -68,7 +68,7 @@
 						@else
 						<div class="radio-line radio-box">
 							<label class="radio-label ep" >
-								<input name="addr" value="1" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
+								<input name="address_id" value="{{$row->id}}" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
 								{{$row->province}} {{$row->city}} {{$row->area}} {{$row->town}}
 								{{$row->address}}
 								（{{$row->username}} 收） {{$row->phone}}
@@ -95,7 +95,7 @@
 								<!-- 遍历商品 -->
 								@foreach($goods as $rows)
 								<tr>
-									<th scope="row"><a href="item_show.html"><div class="img"><img src="/home/images/temp/M-003.jpg" alt="" class="cover"></div></a></th>
+									<th scope="row"><a href="item_show.html"><div class="img"><img src="/home/images/temp/M-003.jpg" class="cover"></div></a></th>
 									<td>
 										<div class="name ep3">{{$rows['name']}}</div>
 									</td>
@@ -113,21 +113,10 @@
 						<div class="pull-left text-left">
 							<div class="info-line text-nowrap">购买时间：<span class="c6">{{date('Y-m-d H:i:s',time())}}</span></div>
 							<div class="info-line text-nowrap">交易类型：<span class="c6">担保交易</span></div>
-							<div class="info-line text-nowrap">交易号：<span class="c6">{{time().rand(1,10000)}}</span></div>
+							<div class="info-line text-nowrap">交易号：<span class="c6">{{time()}}</span></div>
+							<input type="hidden" name="order" value="{{time()}}">
 						</div>
 						<div class="pull-right text-right">
-							<div class="form-group">
-								<label for="coupon" class="control-label">优惠券使用：</label>
-								<select id="coupon" >
-									<option value="-1" selected>- 请选择可使用的优惠券 -</option>
-									<option value="1">【满￥20.0元减￥2.0】</option>
-									<option value="2">【满￥30.0元减￥2.0】</option>
-									<option value="3">【满￥25.0元减￥1.0】</option>
-									<option value="4">【满￥10.0元减￥1.5】</option>
-									<option value="5">【满￥15.0元减￥1.5】</option>
-									<option value="6">【满￥20.0元减￥1.0】</option>
-								</select>
-							</div>
 							<script>
 								$('#coupon').bind('change',function() {
 									console.log($(this).val());
@@ -139,6 +128,7 @@
 							<div class="info-line fz12 c9">（可获 <span class="c6">20</span> 积分）</div>
 						</div>
 					</div>
+					{{csrf_field()}}
 					<div class="shop-title">确认订单</div>
 					<div class="pay-mode__box">
 						<div class="radio-line radio-box">

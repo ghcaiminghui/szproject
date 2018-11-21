@@ -1,42 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>支付宝即时到账交易接口接口</title>
+</head>
 <?php
-
-//发送短信的方法
-function sendphone ($phone)
-{
-	//Account Sid
-	$options['accountsid']='0bf924ac5246c6f6f17f482d3b45ecb3';
-
-	//Auth Token
-	$options['token']='0e3477be626a897215c607c968877979';
-
-	//初始化 $options必填
-	$ucpass = new Ucpaas($options);
-
-	//应用的ID
-	$appid = "3e8ed8ba47574ea2baf0b7810f564926";	
-
-	//短信模板
-	$templateid = "387051";    
-
-	//验证码
-	$param = substr(strval(rand(10000,19999)),1,4);
-
-	\Cookie::queue('smscode',$param,10);
-
-	//手机号
-	$mobile = $phone;
-
-	$uid = "";
-
-	//70字内（含70字）计一条，超过70字，按67字/条计费，超过长度短信平台将会自动分割为多条发送。分割后的多条短信将按照具体占用条数计费。
-	echo  $ucpass->SendSms($appid,$templateid,$param,$mobile,$uid);
-
-}
-
-function pay($order,$ordername,$body)
-{
-
-
 /* *
  * 功能：即时到账交易接口接入页
  * 版本：3.4
@@ -61,16 +29,16 @@ require_once("lib/alipay_submit.class.php");
 
 /**************************请求参数**************************/
         //商户订单号，商户网站订单系统中唯一订单号，必填
-        $out_trade_no = $order;
+        $out_trade_no = $_POST['WIDout_trade_no'];
 
         //订单名称，必填
-        $subject = $ordername;
+        $subject = $_POST['WIDsubject'];
 
         //付款金额，必填
-        $total_fee = 0.01;
+        $total_fee = $_POST['WIDtotal_fee'];
 
         //商品描述，可空
-        $body = $body;
+        $body = $_POST['WIDbody'];
 
 
 
@@ -104,8 +72,6 @@ $alipaySubmit = new AlipaySubmit($alipay_config);
 $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
 echo $html_text;
 
-
-}
-
-	
-	
+?>
+</body>
+</html>

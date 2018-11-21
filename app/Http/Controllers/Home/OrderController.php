@@ -117,4 +117,19 @@ class OrderController extends Controller
     {
         //
     }
+
+    public function pay(Request $request)
+    {
+
+        $address = $request->input('address_id'); //下单地址的id
+
+        $order = $request->input('order'); //订单号
+
+        $total = 0; //存储总金额
+        
+        foreach($request->session()->pull('goods') as $row){
+
+            var_dump($row);
+        }
+    }
 }
