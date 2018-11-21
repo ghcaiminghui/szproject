@@ -12,11 +12,14 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //获取购物车session id num
         // $data=session('cart');
         // dd($data);
+        $data = $request->all();
+        var_dump($data);
+
     }
 
     /**

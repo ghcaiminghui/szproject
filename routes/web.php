@@ -102,6 +102,9 @@ Route::group(['middleware'=>'homelogin'],function(){
 	//个人中心(个人的收获地址)
 	Route::resource("/personal/address","Home\AddressController");
 
+	//立即购买
+	Route::resource("/homeorder","Home\OrderController");
+
 
 });
 

@@ -14,6 +14,7 @@
   <script src="/home/js/swiper.min.js" charset="UTF-8"></script> 
   <script src="/home/js/global.js" charset="UTF-8"></script> 
   <script src="/home/js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script> 
+  <script src="/home/js/jquery.form.js" charset="UTF-8"></script>
   <title>U袋网</title> 
  </head> 
  <body> 
@@ -137,19 +138,24 @@
          
         </dl> 
        </div> 
-       <div class="item-amount clearfix bgf5"> 
+       <div class="item-amount clearfix bgf5">
+       <form class="homeorder"> 
         <div class="item-metatit">
          数量：
         </div> 
         <div class="amount-box"> 
          <div class="amount-widget"> 
-          <input class="amount-input" value="{{$good->num}}" maxlength="8" title="请输入购买量" type="text" /> 
+          <input class="amount-input" name="num" value="1" maxlength="8" title="请输入购买量" type="text" /> 
           <div class="amount-btn"> 
            <a class="amount-but add"></a> 
            <a class="amount-but sub"></a> 
           </div> 
          </div> 
          <div class="item-stock">
+          <input type="hidden" name="store" value="{{$good->store}}">
+          <input type="hidden" name="price" value="{{$good->price}}">
+          <input type="hidden" name="id" value="{{$good->id}}">
+          <input type="hidden" name="store" value="{{$good->name}}">
           <span style="margin-left: 10px;">库存 <b id="Stock">{{$good->store}}</b> 件</span>
          </div> 
          <script>
@@ -185,7 +191,8 @@
        </div> 
        <div class="item-action clearfix bgf5"> 
         <a href="javascript:;" rel="nofollow" data-addfastbuy="true" title="点击此按钮，到下一步确认购买信息。" role="button" class="item-action__buy">立即购买</a> 
-        <a href="/cart" rel="nofollow" data-addfastbuy="true" role="button" class="item-action__basket"> <i class="iconfont icon-shopcart"></i> 加入购物车 </a> 
+        <a href="javascript:;" rel="nofollow" data-addfastbuy="true" role="button" class="item-action__basket"> <i class="iconfont icon-shopcart"></i> 加入购物车 </a> 
+      </form>
        </div> 
       </div> 
      </div> 
@@ -1888,3 +1895,42 @@
   </div>  
  </body>
 </html>
+<script>
+    //立即购买
+    $('.item-action__buy').click(function(){
+
+    $('.homeorder').ajaxSubmit({
+
+      url:'/homeorder',
+      type:'get',
+      dataType:'json',
+      beforeSubmit:function(){},
+      success:function(data){
+
+        if(data.msg == '1'){
+
+          window.location="/homeorder/create";
+        }
+      }
+    });
+  });
+
+//加入购物车
+    $('.item-action__basket').click(function(){
+
+    $('.homeorder').ajaxSubmit({
+
+      url:'/cart',
+      type:'get',
+      dataType:'json',
+      beforeSubmit:function(){},
+      success:function(data){
+
+        if(data.msg == '1'){
+
+          //window.location="/homeorder";
+        }
+      }
+    });
+  });
+</script>

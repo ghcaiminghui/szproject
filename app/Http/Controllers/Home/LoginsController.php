@@ -18,7 +18,7 @@ class LoginsController extends Controller
     public function index(Request $request)
     {  
 
-        //dd($request->cookie('message'));
+        //dd($request->cookie('smscode'));
         return view("home.index.login");
     }
 

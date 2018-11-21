@@ -63,6 +63,25 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+         'qiniu' => 
+        [
+            'driver'  => 'qiniu',
+            'domains' => 
+            [
+                'default' => 'img.shenheng.xin', //你的七牛域名
+                'https'   => '',     //你的HTTPS域名
+                'custom'  => '',     //你的自定义域名
+             ],
+            'access_key'  => 'OYssxNuEr-KjXGUYCkLsLv4b151X_yE80aWy4oTL',  //AccessKey
+            'secret_key'  => '_Rah5m9yB80rjWlyPq0DEuTwphhb98wHJYQ7CT7X',  //SecretKey
+            'bucket'      => 'larabbs-code-1025824',  //Bucket名字
+            'notify_url'  => '',  //持久化处理回调地址
+            'access'      => 'public', //空间访问控制public或private
+        ],
+
     ],
+
+
+
 
 ];
