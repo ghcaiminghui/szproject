@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DB;
 
 class OrderController extends Controller
 {
@@ -31,8 +32,34 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         //
-        $data = $request->session()->all();
-        var_dump($data);
+        //$data = $request->session()->all();
+
+        $username = \Cookie::get('username');//用户信息
+
+        //收货地址
+        $address = DB::table('address')->where('member_phone',$username)->get();
+        //收货地址转换
+        foreach($address as $value){
+
+            $value->province = $this->convert($value->province);
+            $value->city = $this->convert($value->city);
+            $value->area = $this->convert($value->area);
+            $value->town = $this->convert($value->town);
+
+        }
+
+        //查询商品信息
+        $goods = session('goods');
+        
+        //dd($goods);
+        return view('home.order.index',compact('username','address','goods'));
+    }
+
+    //城市id转换为中文
+    public function convert($id)
+    {
+        $data = DB::table('zone')->where('id',$id)->first();
+        return $data->area;
     }
 
     /**

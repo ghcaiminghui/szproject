@@ -152,10 +152,11 @@
           </div> 
          </div> 
          <div class="item-stock">
+          <input type="hidden" name="avatar" value="{{$good->avatar}}">
           <input type="hidden" name="store" value="{{$good->store}}">
           <input type="hidden" name="price" value="{{$good->price}}">
           <input type="hidden" name="id" value="{{$good->id}}">
-          <input type="hidden" name="store" value="{{$good->name}}">
+          <input type="hidden" name="name" value="{{$good->name}}">
           <span style="margin-left: 10px;">库存 <b id="Stock">{{$good->store}}</b> 件</span>
          </div> 
          <script>

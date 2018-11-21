@@ -3,17 +3,17 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="favicon.ico">
-	<link rel="stylesheet" href="css/iconfont.css">
-	<link rel="stylesheet" href="css/global.css">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="css/swiper.min.css">
-	<link rel="stylesheet" href="css/styles.css">
-	<script src="js/jquery.1.12.4.min.js" charset="UTF-8"></script>
-	<script src="js/bootstrap.min.js" charset="UTF-8"></script>
-	<script src="js/swiper.min.js" charset="UTF-8"></script>
-	<script src="js/global.js" charset="UTF-8"></script>
-	<script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+	<link rel="stylesheet" href="/home/css/iconfont.css">
+	<link rel="stylesheet" href="/home/css/global.css">
+	<link rel="stylesheet" href="/home/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/home/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="/home/css/swiper.min.css">
+	<link rel="stylesheet" href="/home/css/styles.css">
+	<script src="/home/js/jquery.1.12.4.min.js" charset="UTF-8"></script>
+	<script src="/home/js/bootstrap.min.js" charset="UTF-8"></script>
+	<script src="/home/js/swiper.min.js" charset="UTF-8"></script>
+	<script src="/home/js/global.js" charset="UTF-8"></script>
+	<script src="/home/js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
 	<title>U袋网</title>
 </head>
 <body>
@@ -21,14 +21,18 @@
 	<div class="tab-header">
 		<div class="inner">
 			<div class="pull-left">
-				<div class="pull-left">嗨，欢迎来到<span class="cr">U袋网</span></div>
+				<div class="pull-left">嗨，欢迎<span class="cr">{{$username}}</span></div>
 				<a href="agent_level.html">网店代销</a>
-				<a href="temp_article/udai_article4.html">帮助中心</a>
+				<a href="/home/temp_article/udai_article4.html">帮助中心</a>
 			</div>
 			<div class="pull-right">
-				<a href="login.html"><span class="cr">登录</span></a>
-				<a href="login.html?p=register">注册</a>
-				<a href="udai_welcome.html">我的U袋</a>
+				@if($username)
+				<a href="/login/logout"><span class="cr">退出</span></a>
+				@else
+				<a href="/login"><span class="cr">你好,请登录</span></a>
+				<a href="/login">免费注册</a>
+				@endif
+				<a href="/personal">我的U袋</a>
 				<a href="udai_order.html">我的订单</a>
 				<a href="udai_integral.html">积分平台</a>
 			</div>
@@ -38,7 +42,7 @@
 	<div class="bgf5 clearfix">
 		<div class="top-user">
 			<div class="inner">
-				<a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
+				<a class="logo" href="index.html"><img src="/home/images/icons/logo.jpg" alt="U袋网" class="cover"></a>
 				<div class="title">购物车</div>
 			</div>
 		</div>
@@ -50,49 +54,30 @@
 				<div class="shop-title">收货地址</div>
 				<form action="" class="shopcart-form__box">
 					<div class="addr-radio">
+						<!-- 遍历购物车 -->
+						@foreach($address as $row)
+						@if($row->status == '1')
 						<div class="radio-line radio-box active">
-							<label class="radio-label ep" title="福建省 福州市 鼓楼区 温泉街道 五四路159号世界金龙大厦20层B北 福州rpg.blue网络 （喵喵喵 收） 153****9999">
+							<label class="radio-label ep" >
 								<input name="addr" checked="" value="0" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								福建省 福州市 鼓楼区 温泉街道
-								五四路159号世界金龙大厦20层B北 福州rpg.blue网络
-								（喵喵喵 收） 153****9999
+								{{$row->province}} {{$row->city}} {{$row->area}} {{$row->town}}
+								{{$row->address}}
+								（{{$row->username}} 收） {{$row->phone}}
 							</label>
-							<a href="javascript:;" class="default">默认地址</a>
-							<a href="udai_address_edit.html" class="edit">修改</a>
 						</div>
+						@else
 						<div class="radio-line radio-box">
-							<label class="radio-label ep" title="福建省 福州市 鼓楼区 温泉街道 五四路159号世界金龙大厦20层B北 福州rpg.blue网络 （taroxd 收） 153****9999">
+							<label class="radio-label ep" >
 								<input name="addr" value="1" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								福建省 福州市 鼓楼区 温泉街道
-								五四路159号世界金龙大厦20层B北 福州rpg.blue网络
-								（taroxd 收） 153****9999
+								{{$row->province}} {{$row->city}} {{$row->area}} {{$row->town}}
+								{{$row->address}}
+								（{{$row->username}} 收） {{$row->phone}}
 							</label>
-							<a href="" class="default">设为默认地址</a>
-							<a href="udai_address_edit.html" class="edit">修改</a>
 						</div>
-						<div class="radio-line radio-box">
-							<label class="radio-label ep" title="福建省 福州市 鼓楼区 温泉街道 五四路159号世界金龙大厦20层B北 福州rpg.blue网络 （喵污喵⑤ 收） 153****9999">
-								<input name="addr" value="2" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								福建省 福州市 鼓楼区 温泉街道
-								五四路159号世界金龙大厦20层B北 福州rpg.blue网络
-								（喵污喵⑤ 收） 153****9999
-							</label>
-							<a href="" class="default">设为默认地址</a>
-							<a href="udai_address_edit.html" class="edit">修改</a>
-						</div>
-						<div class="radio-line radio-box">
-							<label class="radio-label ep" title="福建省 福州市 鼓楼区 温泉街道 五四路159号世界金龙大厦20层B北 福州rpg.blue网络 （浴巾打码女 收） 153****9999">
-								<input name="addr" value="2" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								福建省 福州市 鼓楼区 温泉街道
-								五四路159号世界金龙大厦20层B北 福州rpg.blue网络
-								（浴巾打码女 收） 153****9999
-							</label>
-							<a href="" class="default">设为默认地址</a>
-							<a href="udai_address_edit.html" class="edit">修改</a>
-						</div>
+						@endif
+						@endforeach
 					</div>
-					<div class="add_addr"><a href="udai_address.html">添加新地址</a></div>
-					<div class="shop-title">确认订单</div>
+					<div class="shop-title">商品</div>
 					<div class="shop-order__detail">
 						<table class="table">
 							<thead>
@@ -106,47 +91,29 @@
 								</tr>
 							</thead>
 							<tbody>
+								<?php $total=0 ?>
+								<!-- 遍历商品 -->
+								@foreach($goods as $rows)
 								<tr>
-									<th scope="row"><a href="item_show.html"><div class="img"><img src="images/temp/M-003.jpg" alt="" class="cover"></div></a></th>
+									<th scope="row"><a href="item_show.html"><div class="img"><img src="/home/images/temp/M-003.jpg" alt="" class="cover"></div></a></th>
 									<td>
-										<div class="name ep3">锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款</div>
-										<div class="type c9">颜色分类：深棕色  尺码：均码</div>
+										<div class="name ep3">{{$rows['name']}}</div>
 									</td>
-									<td>¥20.0</td>
-									<td>1</td>
+									<td>{{$rows['price']}}</td>
+									<td>{{$rows['num']}}</td>
 									<td>¥0.0</td>
-									<td>¥20.0</td>
+									<td class="">￥{{$rows['price']*$rows['num']}}</td>
+									<?php $total+=$rows['price']*$rows['num']?>
 								</tr>
-								<tr>
-									<th scope="row"><a href="item_show.html"><div class="img"><img src="images/temp/S-005.jpg" alt="" class="cover"></div></a></th>
-									<td>
-										<div class="name ep3">锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款</div>
-										<div class="type c9">颜色分类：深棕色  尺码：均码</div>
-									</td>
-									<td>¥20.0</td>
-									<td>2</td>
-									<td>¥0.0</td>
-									<td>¥40.0</td>
-								</tr>
-								<tr>
-									<th scope="row"><a href="item_show.html"><div class="img"><img src="images/temp/M-007.jpg" alt="" class="cover"></div></a></th>
-									<td>
-										<div class="name ep3">锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款</div>
-										<div class="type c9">颜色分类：深棕色  尺码：均码</div>
-									</td>
-									<td>¥20.0</td>
-									<td>1</td>
-									<td>¥0.0</td>
-									<td>¥20.0</td>
-								</tr>
+								@endforeach
 							</tbody>
 						</table>
 					</div>
 					<div class="shop-cart__info clearfix">
 						<div class="pull-left text-left">
-							<div class="info-line text-nowrap">购买时间：<span class="c6">2017年09月14日 17:31:05</span></div>
+							<div class="info-line text-nowrap">购买时间：<span class="c6">{{date('Y-m-d H:i:s',time())}}</span></div>
 							<div class="info-line text-nowrap">交易类型：<span class="c6">担保交易</span></div>
-							<div class="info-line text-nowrap">交易号：<span class="c6">1001001830267490496</span></div>
+							<div class="info-line text-nowrap">交易号：<span class="c6">{{time().rand(1,10000)}}</span></div>
 						</div>
 						<div class="pull-right text-right">
 							<div class="form-group">
@@ -168,7 +135,7 @@
 							</script>
 							<div class="info-line">优惠活动：<span class="c6">无</span></div>
 							<div class="info-line">运费：<span class="c6">¥0.00</span></div>
-							<div class="info-line"><span class="favour-value">已优惠 ¥2.0</span>合计：<b class="fz18 cr">¥18.0</b></div>
+							<div class="info-line"><span class="favour-value"></span>合计：<b class="fz18 cr">¥{{$total}}</b></div>
 							<div class="info-line fz12 c9">（可获 <span class="c6">20</span> 积分）</div>
 						</div>
 					</div>
@@ -176,22 +143,8 @@
 					<div class="pay-mode__box">
 						<div class="radio-line radio-box">
 							<label class="radio-label ep">
-								<input name="pay-mode" value="1" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								<span class="fz16">余额支付</span><span class="fz14">（可用余额：¥88.0）</span>
-							</label>
-							<div class="pay-value">支付<b class="fz16 cr">18.00</b>元</div>
-						</div>
-						<div class="radio-line radio-box">
-							<label class="radio-label ep">
-								<input name="pay-mode" value="2" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								<img src="images/icons/alipay.png" alt="支付宝支付">
-							</label>
-							<div class="pay-value">支付<b class="fz16 cr">18.00</b>元</div>
-						</div>
-						<div class="radio-line radio-box">
-							<label class="radio-label ep">
-								<input name="pay-mode" value="3" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								<img src="images/icons/paywechat.png" alt="微信支付">
+								<input name="pay-mode" value="2" autocomplete="off" type="radio"><i class="iconfont icon-radio" ></i>
+								<img src="/home/images/icons/alipay.png" alt="支付宝支付">
 							</label>
 							<div class="pay-value">支付<b class="fz16 cr">18.00</b>元</div>
 						</div>
@@ -257,16 +210,16 @@
 		<div class="footer-tags">
 			<div class="tags-box inner">
 				<div class="tag-div">
-					<img src="images/icons/footer_1.gif" alt="厂家直供">
+					<img src="/home/images/icons/footer_1.gif" alt="厂家直供">
 				</div>
 				<div class="tag-div">
-					<img src="images/icons/footer_2.gif" alt="一件代发">
+					<img src="/home/images/icons/footer_2.gif" alt="一件代发">
 				</div>
 				<div class="tag-div">
-					<img src="images/icons/footer_3.gif" alt="美工活动支持">
+					<img src="/home/images/icons/footer_3.gif" alt="美工活动支持">
 				</div>
 				<div class="tag-div">
-					<img src="images/icons/footer_4.gif" alt="信誉认证">
+					<img src="/home/images/icons/footer_4.gif" alt="信誉认证">
 				</div>
 			</div>
 		</div>
