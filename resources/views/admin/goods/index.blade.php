@@ -50,12 +50,15 @@
 				<tr class="text-c">
 					<th width="25"><input type="checkbox" name="" value=""></th>
 					<th width="70">ID</th>
-					<th width="180">商品名称</th>
-					<th width="100">商品类型</th>
-					<th width="100">商品价格</th>
+					<th width="100">商品名称</th>
+					<th width="100">商品图片</th>
+					<th width="100">商品大图</th>
+					<th width="80">商品类型</th>
+					<th width="80">商品价格</th>
 					<th width="80">商品状态</th>
 					<th width="80">商品销量</th>
 					<th width="80">商品库存</th>
+					<th width="80">商品数量</th>
 					<th width="100">操作</th>
 				</tr>
 			</thead>
@@ -65,6 +68,8 @@
 					<td><input name="" type="checkbox" value="{{$value->id}}"></td>
 					<td>{{$key+1}}</td>
 					<td>{{$value->name}}</td>
+					<td><img src="{{$value->avatar}}" width="100px" height="100px"></td>
+					<td><img src="{{$value->pic}}" width="200px" height="200px"></td>
 					<td>{{$value->cates->name}}</td>
 					<td>{{$value->price}}</td>
 					<td class="td-status">
@@ -77,6 +82,7 @@
 					</td>
 					<td class="text-l">{{$value->sales}}</td>
 					<td class="text-l">{{$value->store}}</td>
+					<td class="text-l">{{$value->num}}</td>
 					<td class="td-manage">
 						<!--判断操作按钮 -->
 						@if($value->status=='0')

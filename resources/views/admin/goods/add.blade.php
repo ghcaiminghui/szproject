@@ -65,7 +65,13 @@
 			</div>
 		</div>
 		<div class="row cl">
-                <label class="form-label col-xs-4 col-sm-3">头像：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>商品数量：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="" name="store" id="store">
+			</div>
+		</div>
+		<div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3">图片：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <!-- 给webuploader使用的div -->
                     <div id="uploader-demo">
@@ -74,10 +80,26 @@
                             <!-- 添加隐藏域 -->
                             <input type="hidden" name="avatar" value=""/>
                         </div>
-                        <div id="filePicker">选择图片</div>
+                        <div id="filePicker">选择小图</div>
                     </div>
                 </div>
         </div>
+
+        <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-3">图片：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <!-- 给webuploader使用的div -->
+                    <div id="uploader-demo">
+                        <!--用来存放item-->
+                        <div id="fileList" class="uploader-list">
+                            <!-- 添加隐藏域 -->
+                            <input type="hidden" name="pic" value=""/>
+                        </div>
+                        <div id="filePicker">选择大图</div>
+                    </div>
+                </div>
+        </div>
+
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>商品价格：</label>
 			<div class="formControls col-xs-8 col-sm-9">

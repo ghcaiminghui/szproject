@@ -70,7 +70,12 @@ Route::get("/login/match/sendmessage","Home\LoginsController@sendmessage");
 //注册路由负责检查手机号和验证码是否存在，最后添加信息
 Route::post("/login/match/registered","Home\LoginsController@registered");	
 //重置密码
-Route::post("/login/match/reset","Home\LoginsController@reset"); 
+Route::post("/login/match/reset","Home\LoginsController@reset");
+
+//商品详情列表
+Route::resource("/info","Home\InfoController"); 	
+//购物车
+Route::resource("/cart","Home\CartController");  
 
 
 //管理前台首页的路由

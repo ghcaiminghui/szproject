@@ -68,6 +68,12 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>商品数量：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="" name="num" id="num" value="{{$value->num}}">
+			</div>
+		</div>
+		<div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3">头像：</label>
                 <div class="formControls col-xs-8 col-sm-9">
                     <!-- 给webuploader使用的div -->
