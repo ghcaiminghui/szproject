@@ -33,7 +33,7 @@ function sendphone ($phone)
 
 }
 
-function pay($order,$ordername,$body)
+function pay($order,$ordername)
 {
 
 
@@ -70,7 +70,7 @@ require_once("lib/alipay_submit.class.php");
         $total_fee = 0.01;
 
         //商品描述，可空
-        $body = $body;
+        $body = '';
 
 
 

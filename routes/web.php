@@ -104,8 +104,11 @@ Route::group(['middleware'=>'homelogin'],function(){
 
 	//调用支付宝
 	Route::post("/homeorder/pay","Home\OrderController@pay");
+	//购买完成跳转
+	Route::get("/homeorder/payss","Home\OrderController@payss");
 	//立即购买
 	Route::resource("/homeorder","Home\OrderController");
+
 
 
 

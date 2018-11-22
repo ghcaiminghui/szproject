@@ -121,15 +121,56 @@ class OrderController extends Controller
     public function pay(Request $request)
     {
 
-        $address = $request->input('address_id'); //下单地址的id
+        //var_dump($request->all());exit;
+        //dd(session('goods'));
+        $data = array();
 
-        $order = $request->input('order'); //订单号
+        $data['member_phone'] = \Cookie::get('username');//用户信息
 
-        $total = 0; //存储总金额
+        $data['orders'] = $request->input('order'); //订单号
+
+        $data['total'] = $request->input('total'); //订单存储总金额
+
+        $data['time'] = time(); //下单时间
+
+        $data['status'] = 1; //订单状态
         
-        foreach($request->session()->pull('goods') as $row){
+        if(DB::table('orders')->insert($data)){
 
-            var_dump($row);
+                $rows = array();
+
+                $rows['address_id'] = $request->input('address_id'); //下单地址的id
+
+                //遍历session的商品
+                foreach($request->session()->pull('goods') as $row){
+
+                    $rows['good_id'] = $row['id'];
+
+                    $rows['orders'] = $data['orders'];
+                    //$data['member_phone'] = $username;
+                    $rows['xiaoji'] = $row['num'] * $row['price'];  //订单详情小计
+
+                    $rows['price'] = $row['price']; //商品价格
+
+                    $rows['num'] = $row['num'];
+
+                    DB::table('orders_info')->insert($rows);
+                }
+
         }
+
+        session(['orders'=>$data['orders']]);
+        
+        pay($data['orders'],'中国大背包曹');
+    }
+
+    public function payss()
+    {
+
+        $orders = session('orders');
+
+        DB::table('orders')->where('orders',$orders)->update(['status'=>'2']);
+
+        return redirect('/personal');
     }
 }

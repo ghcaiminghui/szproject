@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Member;
+use DB;
 use Hash;
 
 class PersonalsController extends Controller
@@ -15,8 +16,10 @@ class PersonalsController extends Controller
 
     	$username = \Cookie::get('username');
 
+                  
     	//加载视图
     	return view("home.personalCenter.index",compact('username'));
+        
     }
 
     //个人中心的基本信息

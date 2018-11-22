@@ -24,10 +24,10 @@ $alipay_config['seller_id']	= $alipay_config['partner'];
 $alipay_config['key'] = 'tqj7ibxpgonwk3b96o4yvv1x552evpae';
 
 // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-$alipay_config['notify_url'] = "http://商户网址/create_direct_pay_by_user-PHP-UTF-8/notify_url.php";
+$alipay_config['notify_url'] = "http://www.ojbk.cn/homeorder/payss";
 
 // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-$alipay_config['return_url'] = "http://商户网址/create_direct_pay_by_user-PHP-UTF-8/return_url.php";
+$alipay_config['return_url'] = "http://www.ojbk.cn/homeorder/payss";
 
 //签名方式
 $alipay_config['sign_type']    = strtoupper('MD5');

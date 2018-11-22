@@ -125,20 +125,12 @@
 							<div class="info-line">优惠活动：<span class="c6">无</span></div>
 							<div class="info-line">运费：<span class="c6">¥0.00</span></div>
 							<div class="info-line"><span class="favour-value"></span>合计：<b class="fz18 cr">¥{{$total}}</b></div>
+							<input type="hidden" name="total" value="{{$total}}">
 							<div class="info-line fz12 c9">（可获 <span class="c6">20</span> 积分）</div>
 						</div>
 					</div>
 					{{csrf_field()}}
-					<div class="shop-title">确认订单</div>
-					<div class="pay-mode__box">
-						<div class="radio-line radio-box">
-							<label class="radio-label ep">
-								<input name="pay-mode" value="2" autocomplete="off" type="radio"><i class="iconfont icon-radio" ></i>
-								<img src="/home/images/icons/alipay.png" alt="支付宝支付">
-							</label>
-							<div class="pay-value">支付<b class="fz16 cr">18.00</b>元</div>
-						</div>
-					</div>
+
 					<div class="user-form-group shopcart-submit">
 						<button type="submit" class="btn">继续支付</button>
 					</div>
